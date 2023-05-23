@@ -1,9 +1,12 @@
 <?php 
     session_start();
-    if (!isset($_SESSION['login'])) header("Location: /main/login.html");
-    if (!isset($_SESSION['list'])) {
+    if (!isset($_SESSION['login'])) header("Location: /main/login.php");
+    if (!isset($_SESSION['list']) || (!isset($_SESSION['id_list']))) {
         header("Location: /ini/article/main.ini.php");
-    } else $list = $_SESSION['list'];
+    } else {
+        $list = $_SESSION['list'];
+        $id_list = $_SESSION['id_list'];
+    } 
 ?>
 
 <!DOCTYPE html>
@@ -19,8 +22,8 @@
         <h1>Najważniejsze newsy w jednym miejscu!</h1>
         <nav>
             <ul>
-                <li><a href="/main/main.html">strona główna</a></li>
-                <li><a href="/main/my_article.html">twoje artykuły</a></li>
+                <li><a href="/main/main.php">strona główna</a></li>
+                <li><a href="/main/my_article.php">twoje artykuły</a></li>
                 <li><a href="/main/account.html">twoje konto</a></li>
             </ul>
         </nav>
@@ -30,10 +33,13 @@
         <article>
             <?php
                 for ($i = 1; $i <= count($list) ;$i++) {
-                    $is_odd = ($i % 2 != 0) ? $obraz = "/img/" . $list[$i] : $tytul = $list[$i] ;
-                    if ($i % 2 != 0) {echo "<figure> <a href='/main/article.html'><img src = '$obraz' alt = 'obraz'></a>";}
-                    else echo "<figcaption><a href='/main/article.php/'>$tytul...</a></figcaption></figure>";
+                    $is_odd = ($i % 2 != 0) ? $obraz = "/img/" . $list[$i] : $tytul = $list[$i];
+                    if ($i <= count($id_list)) $id = $id_list[$i];
+                    if ($i % 2 != 0) {echo "<figure> <a href=/ini/article/article.ini.php?atr=$id> <img src = '$obraz' alt = 'obraz'></a>";}
+                    else echo "<figcaption><a href='/ini/article/article.ini.php?atr=$id/'>$tytul...</a></figcaption></figure>";
                 }
+                unset($_SESSION['list']);
+                unset($_SESSION['id_list']);
             ?>
         </article>
     </main>

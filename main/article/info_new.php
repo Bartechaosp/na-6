@@ -1,10 +1,15 @@
+<?php
+    session_start();
+    if (!isset($_SESSION['login'])) header("Location: /main/login.php");
+?>
+
 <!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Twoje konto</title>
+    <title>Nowy artykuł</title>
 </head>
 <body>
     <header>
@@ -19,16 +24,13 @@
     </header>
 
     <main>
-        <h2>Twoje konto</h2>
-        <img src="/img/avatar.jfif" alt="awatar">
-        <p>Witaj username1</p>
-        <ul>
-            <li><a href="">Zmień nazwę użytkownika</a></li>
-            <li><a href="">Zmień email</a></li>
-            <li><a href="">Zmień hasło</a></li>
-            <li><a href="">Usuń konto</a></li>
-            <li><a href="/ini/logout.ini.php"><button>wyloguj się</button></a></li>
-        </ul>
+        <form action="/ini/article/info_new.ini.php" method="post">
+            <fieldset>
+                <legend>Wielkość artykułu</legend>
+                <input type="number" name="number" id="number">
+                <button type="submit">Do dzieła!</button>
+            </fieldset>
+        </form>
     </main>
 
     <footer>

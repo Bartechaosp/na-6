@@ -6,7 +6,6 @@
     $dbName = "page";
     $null = 0;
     $pass_count = 0;
-    $id = 0;
 
     function pass_correct($conditional,$message) {
         if ($conditional) {
@@ -45,16 +44,17 @@
         mysqli_stmt_bind_param($stmt, "s", $email);
         mysqli_stmt_execute($stmt);
         mysqli_stmt_bind_result($stmt, $id);
+        mysqli_stmt_fetch($stmt);
         mysqli_stmt_close($stmt);
 
         $sqlc = "UPDATE account SET pass = '$hashed_pass' WHERE id = $id";
         $result = mysqli_query($db, $sqlc);
 
-        while($row = mysqli_fetch_row($result)) {
+        if ($result){
             unset($_SESSION['email']);
             unset($_SESSION['code']);
             header("Location: /message/reset_success.html");
         }
     }
-    }
+    } else header("Location: /main/pass/reset_pass.php");
 ?>
